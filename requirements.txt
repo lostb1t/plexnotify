@@ -2,3 +2,4 @@ fastapi==0.111
 httpx==0.27
 gql[aiohttp]==3.5
 aiocache==0.12.2
+loguru==0.7.2

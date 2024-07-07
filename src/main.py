@@ -4,7 +4,7 @@ import asyncio
 from typing import Any
 from fastapi import Form, Body, FastAPI, APIRouter, HTTPException, Request
 import httpx
-import logging
+from loguru import logger as log
 from aiocache import cached, Cache
 from pydantic import Json
 from gql import gql, Client
@@ -14,8 +14,6 @@ PLEX_TOKEN = os.environ.get('PLEX_TOKEN')
 
 app = FastAPI()
 
-log = logging.getLogger(__name__)
-logging.basicConfig(level=logging.INFO)
 
 client = httpx.AsyncClient(
     headers={
