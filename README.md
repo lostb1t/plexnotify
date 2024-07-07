@@ -31,7 +31,7 @@ Make sure you have enabled "Push notifcations" under the general server settings
 ### Enable notifications in app
 
 To receive notifications in the plex app goto settings -> notifications and enable "New content added to library"
-Disable the "All libraries" toggle and just dont select any individual libraries
+Disable the "All libraries" toggle and dont select any individual libraries. Ofcourse you can also keep these options enabled if you want.
 
 ![plot](./app.jpg)
 

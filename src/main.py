@@ -64,7 +64,7 @@ async def get_items(payload: Json = Form(None)):
         )
     )
 
-    # log.trace(payload)
+    log.debug(payload)
     user_id_raw = payload["Account"]["id"]
     user_id = payload["Account"]["thumb"].split("/")[4]
     guid = payload["Metadata"]["guid"]
