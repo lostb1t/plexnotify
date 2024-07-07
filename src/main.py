@@ -4,13 +4,19 @@ import asyncio
 from typing import Any
 from fastapi import Form, Body, FastAPI, APIRouter, HTTPException, Request
 import httpx
-from loguru import logger as log
+import logging
+#from loguru import logger as log
 from aiocache import cached, Cache
 from pydantic import Json
 from gql import gql, Client
 from gql.transport.httpx import HTTPXAsyncTransport, HTTPXTransport
 
-PLEX_TOKEN = os.environ.get('PLEX_TOKEN') 
+PLEX_TOKEN = os.environ.get('PLEX_TOKEN')
+LOG_LEVEL = os.environ.get('LOG_LEVEL', "INFO")
+
+log = logging.getLogger(__name__)
+logging.basicConfig(level=LOG_LEVEL)
+logging.getLogger('httpx').setLevel(logging.CRITICAL)
 
 app = FastAPI()
 
@@ -19,14 +25,14 @@ client = httpx.AsyncClient(
     headers={
         "X-Plex-Token": PLEX_TOKEN,
         "Accept": "application/json",
-        "X-Plex-Client-Identifier": "woohaa",
+        "X-Plex-Client-Identifier": "plexnotify",
         "Content-Type": "application/json",
     }
 )
 
 transport = HTTPXAsyncTransport(
     url="https://community.plex.tv/api",
-    headers={"x-plex-token": PLEX_TOKEN, "X-plex-client-identifier": "wqtch"},
+    headers={"x-plex-token": PLEX_TOKEN, "X-plex-client-identifier": "plexnotify"},
 )
 gql_client = Client(transport=transport, fetch_schema_from_transport=False)
 
@@ -68,7 +74,7 @@ async def get_items(payload: Json = Form(None)):
     r = await get_user(user_id, friends=100)
     friends = r["user"]["friends"]["nodes"]
     servers = await shared_servers()
-    
+
     handles = [handle_user(user_id, user_id_raw, guid, server_title, server_uuid)]
     for f in friends:
         if f["idRaw"] not in servers[server_uuid][library_id]:
@@ -89,7 +95,7 @@ async def test():
 
 
 async def handle_user(user_id, user_id_raw, guid, server_title, server_uuid):
-    u = await get_user(user_id)
+    u = await get_user(user_id, watchlist_first=100)
     for w in u["user"]["watchlist"]["nodes"]:
         if guid == w["guid"]:
             log.info(
