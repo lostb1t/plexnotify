@@ -16,9 +16,7 @@ tunnel:
   
 
 build:
-	docker build -t ghcr.io/lostb1t/plexnotify:latest .
+	docker buildx build -t ghcr.io/lostb1t/plexnotify:latest  .
 
-push:
-	docker push ghcr.io/lostb1t/plexnotify:latest
-
-release: build push
+release:
+	docker buildx build --push --platform linux/amd64,linux/arm64 -t ghcr.io/lostb1t/plexnotify:latest  .
