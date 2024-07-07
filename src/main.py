@@ -115,7 +115,7 @@ async def handle_user(user_id, user_id_raw, guid, server_title, server_uuid):
                     w["type"].lower(), guid.split("/")[3]
                 ),
             )
-            if r.status_code != httpx.codes.OK:
+            if r.status_code != httpx.codes.CREATED:
                 log.error(r)
 
 
