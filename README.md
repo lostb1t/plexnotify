@@ -1,7 +1,7 @@
 # Plex Watchlist Notify
 
-This script will send an push nitifications to a user plex app when content is avaiable from the user watchlist
-This will also work for the users friends.
+This script will send  push notifications to a user plex app when content is avaiable from the user watchlist.
+This also works for the users friends.
 
 Note: You need to be the servers admin to make this work.
 
