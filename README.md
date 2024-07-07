@@ -23,8 +23,8 @@ services:
 
 ### Add webhook
 
-Add the service webhook url to the plex webhooks. Ex: http://10.0.1.7:8000/webhooks/plex
-You can plex webhooks at https://app.plex.tv/desktop/#!/settings/webhooks
+Add the service webhook url to the plex webhooks. Ex: http://10.0.1.7:8000/webhooks/plex.  
+You can add plex webhooks at https://app.plex.tv/desktop/#!/settings/webhooks
 
 Make sure you have enabled "Push notifcations" under the general server settings tab aswell
 
