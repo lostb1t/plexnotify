@@ -124,7 +124,7 @@ async def handle_user(user_id, user_id_raw, guid, server_title, server_uuid):
 async def get_user(id, watchlist_first=2, watchlist_after="", friends=2):
     query = gql(
         """
-query UserFriendList($id: ID!, $friends_first: PaginationInt!, $first: PaginationInt!, $after: String) {
+query User($id: ID!, $friends_first: PaginationInt!, $first: PaginationInt!, $after: String) {
   user(id: $id) {
     id
     username
