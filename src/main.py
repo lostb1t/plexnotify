@@ -58,7 +58,7 @@ async def get_items(payload: Json = Form(None)):
         return {
             "success": True,
         }
-    log.info(
+    log.debug(
         "New media webook received for {} {} {}".format(
             payload["Metadata"]["type"], payload["Metadata"].get("grandparentTitle", payload["Metadata"].get("parentTitle", "")), payload["Metadata"]["title"]
         )
