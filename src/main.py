@@ -59,8 +59,8 @@ async def get_items(payload: Json = Form(None)):
             "success": True,
         }
     log.info(
-        "New media webook received for {} {}".format(
-            payload["Metadata"]["librarySectionType"], payload["Metadata"]["title"]
+        "New media webook received for {} {} {}".format(
+            payload["Metadata"]["type"], payload["Metadata"].get("grandparentTitle", payload["Metadata"].get("parentTitle", "")), payload["Metadata"]["title"]
         )
     )
 
@@ -96,6 +96,7 @@ async def test():
 
 async def handle_user(user_id, user_id_raw, guid, server_title, server_uuid):
     u = await get_user(user_id, watchlist_first=100)
+    #print(u)
     for w in u["user"]["watchlist"]["nodes"]:
         if guid == w["guid"]:
             log.info(
@@ -105,6 +106,7 @@ async def handle_user(user_id, user_id_raw, guid, server_title, server_uuid):
                     w["title"],
                 )
             )
+
             r = await notify(
                 [str(user_id_raw)],
                 w["title"],
