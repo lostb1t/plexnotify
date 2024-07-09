@@ -95,9 +95,12 @@ async def test():
 
 
 async def handle_user(user_id, user_id_raw, guid, server_title, server_uuid):
-    u = await get_user(user_id, watchlist_first=100)
-    #print(u)
-    for w in u["user"]["watchlist"]["nodes"]:
+    watchlist = []
+    u = None
+    for i in range(10):
+      u = await get_user(user_id, watchlist_first=100, watchlist_after=u["user"]["watchlist"]["pageInfo"]["endCursor"] if u else "")
+      watchlist = u["user"]["watchlist"]["nodes"]
+      for w in watchlist:
         if guid == w["guid"]:
             log.info(
                 "notifying {} for {} {}".format(
@@ -119,6 +122,13 @@ async def handle_user(user_id, user_id_raw, guid, server_title, server_uuid):
             )
             if r.status_code != httpx.codes.CREATED:
                 log.error(r)
+            break
+      else:
+         continue
+      break
+    
+      if u["user"]["watchlist"]["pageInfo"]["hasNextPage"] == False:
+        break
 
 
 async def get_user(id, watchlist_first=2, watchlist_after="", friends=2):
@@ -140,6 +150,10 @@ query User($id: ID!, $friends_first: PaginationInt!, $first: PaginationInt!, $af
         title
         guid
         type
+      }
+      pageInfo {
+        endCursor
+        hasNextPage
       }
     }
   }
