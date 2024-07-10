@@ -82,7 +82,10 @@ async def get_items(payload: Json = Form(None)):
 
         handles.append(handle_user(f["id"], f["idRaw"], guid, server_title, server_uuid))
     
-    await asyncio.gather(*handles)
+    #await asyncio.gather(*handles)
+    # endpoints seem rate limited so do sync for now
+    for h in handles:
+        await h
 
     return {
         "success": True,
